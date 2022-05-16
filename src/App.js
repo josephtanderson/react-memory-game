@@ -1,16 +1,22 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
 import Card from './Card'
-import PreviousList from './components/PreviousList'
+import Score from "./components/Score";
+import StartButton from './components/StartButton';
+import { Background } from './App.styled';
+
+
+// import PreviousList from './components/PreviousList'
 
 
 function App() {
-  const [ playing, setPlaying ] = useState(true)
+  // const [ playing, setPlaying ] = useState(true)
   const [ deckUrl , setDeckUrl ] = useState();
   const [ selected, setSelected] = useState({
     previous: [],
   });
   const [ cards, setCards ] = useState([]);
+  const [ hideButton, setHideButton ] = useState( false );
 
   //get Deck ID
   useEffect(()=> {
@@ -23,6 +29,7 @@ function App() {
   }, [])
 
 
+
   const drawCards = async () => {
     shuffleDeck();
     let drawUrl = deckUrl + "/draw/?count=4";
@@ -31,8 +38,8 @@ function App() {
     setCards( draw )
   }
 
-  drawCards()
-
+  drawCards();
+  
   const shuffleDeck = async () => {
     let res = await axios.get(deckUrl + /shuffle/);
     res = await res.data;
@@ -43,7 +50,9 @@ function App() {
   const onSelect = async (selectedCard) => {
     if (selected.previous.includes(selectedCard)) { //check if the selected card has been selected previously
       //if it is, you loose 
-      alert("Game Over \n Score: "+ selected.previous.length + "\n" + selected.previous.join('\n')); 
+      alert("you lose")
+      setCards([]);
+      setHideButton( false );
       return
     }
     let newList = [...selected.previous, selectedCard]; 
@@ -52,15 +61,16 @@ function App() {
   }
 
   return (
-    <div>
+    <Background>
+      <Score score={ selected.previous.length} />
       {/* <PreviousList previous={ selected.previous } style={{gridColumn: '1',gridRow: '1'}} /> */}
       <Card select={ onSelect } hand={ cards } />
-      <button onClick={(e) => {
-        drawCards()
-        e.target.hidden = true;
-        }}>START</button>
-    </div>
+      <StartButton draw={drawCards} isHidden={ hideButton } />
+    </Background>
   );
 }
 
 export default App;
+
+
+// alert("Game Over \n Score: "+ selected.previous.length + "\n" + selected.previous.join('\n'));
