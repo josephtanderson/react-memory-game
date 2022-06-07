@@ -13,30 +13,25 @@ import PreviousList from './components/PreviousList'
 function App() {
   const [ loading, setLoading ] = useState( true );
   const [ best, setBest ] = useState ( 0 );
-  const [ deckUrl , setDeckUrl ] = useState();
   const [ selected, setSelected] = useState({
     previous: [],
   });
   const [ cards, setCards ] = useState([]);
   const [ hideButton, setHideButton ] = useState( false );
 
-  //get Deck ID
+  //get Deck
   useEffect(()=> {
     async function testConnection() {
       let res = await axios.get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
-      let deckIdUrl = "https://deckofcardsapi.com/api/deck/"+ await res.data.deck_id
-      setDeckUrl(deckIdUrl)
-      setLoading(false);
+      if (res.data !== undefined  ) {
+        setLoading(false);
+      }
     }
     testConnection();
     
   }, [])
 
-
-
   const drawCards = async () => {
-    // shuffleDeck();
-    // let drawUrl = deckUrl + "/draw/?count=4";
     let drawUrl = "https://deckofcardsapi.com/api/deck/new/draw/?count=4";
     let res = await axios.get(drawUrl);
     let draw = await res?.data?.cards;
@@ -44,19 +39,11 @@ function App() {
     setHideButton(true);
   }
 
-  // drawCards();
-  
-  // const shuffleDeck = async () => {
-  //   let res = await axios.get(deckUrl + /shuffle/);
-  //   res = await res.data;
-  //   if (res) console.log('shuffled')
-  // }
-
     // when card is clicked
   const onSelect = async (selectedCard) => {
     if (selected.previous.includes(selectedCard)) { //check if the selected card has been selected previously
       //if it is, you loose 
-      alert("you lose");
+      alert("Game Over \n Score: "+ selected.previous.length + "\n" + selected.previous.join('\n'));
       setCards([]);
       setHideButton( false );
       if (selected.previous.length > best) {
@@ -89,4 +76,3 @@ function App() {
 export default App;
 
 
-// alert("Game Over \n Score: "+ selected.previous.length + "\n" + selected.previous.join('\n'));

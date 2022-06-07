@@ -7,7 +7,6 @@ export default function Score(props) {
         <StyledScore>
             BEST: { bestScore } <br />
             POINTS: { score }
-
         </StyledScore>
     )
 }
