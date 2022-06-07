@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createFactory, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const War = () => {
     

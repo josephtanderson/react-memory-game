@@ -5,6 +5,6 @@ import War from './War';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <War />
+    <App />
 );
 
