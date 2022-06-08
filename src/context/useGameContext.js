@@ -1,11 +1,12 @@
 import { useContext } from "react";
+import { GameContext } from './GameContext'
 
-const GameContext = React.createContext({
-    difficulty: "normal",
-    updateDifficulty: ()=>{},
-    bestScore: 0,
-    updateBest: () => {},
-}); 
+export const useGameContext = () => {
+    const context = useContext(GameContext);
 
-
-export default useGameContext;
+    if (context === undefined) {
+        Error("CONTEXT UNDEFINED");
+        return
+    }
+    return context;
+}

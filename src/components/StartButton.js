@@ -1,12 +1,12 @@
 import React from "react";
 
 export default function StartButton(props) {
-    const { draw } = props;
+    const { clickHandler } = props;
     return (
-        <button hidden={ props.isHidden } onClick={(e) => {
-            draw();
+        <button onClick={(e) => {
+            clickHandler(e);
             }} >
-                START
+                START GAME
         </button>
     )
 }

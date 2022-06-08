@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Background, RulesBG } from '../App.styled';
+import { useGameContext } from '../context/useGameContext';
 import DifficultyOption from './DifficultyOption';
+import StartButton from './StartButton';
 
 const Welcome = (props) => {
+    const { setDifficulty } = useGameContext();
     const [ checked, setChecked ] = useState({
         easy: false,
         normal: true,
@@ -18,8 +21,17 @@ const Welcome = (props) => {
         difficulty[setting] = true;
         setChecked( difficulty )
     }
-    
-    let navigate = useNavigate()
+    const handleStart = (e) => {
+        e.preventDefault();
+        navigate("/game");
+        setDifficulty(difficultySetting());
+    }
+
+    let navigate = useNavigate();
+
+    const difficultySetting = () => {
+        return Object.keys(checked).find(key => checked[key] === true);
+      }
 
     return(
         <Background>
@@ -56,12 +68,7 @@ const Welcome = (props) => {
                 {checked.normal === true && <><h3>Basic Memory Game.</h3> <p> Four cards are displayed, pick a new card every time.</p> </>}
                 {checked.hard === true && <><h3>Memory Under Pressure</h3> <p> Four cards at a time, but with only 10 seconds per hand.</p> </>}
                 </div>
-                <button onClick={(e)=>{
-                    e.preventDefault();
-                    navigate("/game");
-                    }} >
-                        START GAME
-                    </button>
+                <StartButton clickHandler={handleStart}>START GAME</StartButton>
             </RulesBG>
         </Background>
     )
