@@ -1,16 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
-import Card from './components/Card'
-import Score from "./components/Score";
-import StartButton from './components/StartButton';
-import { Background } from './App.styled';
-import Loadscreen from "./components/Loadscreen";
+import Card from './Card'
+import Score from "./Score";
+import StartButton from './StartButton';
+import { Background } from '../App.styled';
+import Loadscreen from "./Loadscreen";
 
 
-import PreviousList from './components/PreviousList'
+import PreviousList from './PreviousList'
 
 
-function App() {
+function Game() {
   const [ loading, setLoading ] = useState( true );
   const [ best, setBest ] = useState ( 0 );
   const [ selected, setSelected] = useState({
@@ -18,6 +18,9 @@ function App() {
   });
   const [ cards, setCards ] = useState([]);
   const [ hideButton, setHideButton ] = useState( false );
+  const [ timer, setTimer ] = useState({
+    time: -1,
+  });
 
   //get Deck
   useEffect(()=> {
@@ -37,27 +40,53 @@ function App() {
     let draw = await res?.data?.cards;
     setCards( draw );
     setHideButton(true);
+    //for hard mode
+    setTimer({
+      time: 10
+    });
+  }
+
+
+  const gameOver = () => {
+    alert("Game Over \n Score: "+ selected.previous.length + "\n" + selected.previous.join('\n'));
+    setCards([]);
+    setHideButton( false );
+    if (selected.previous.length > best) {
+      setBest(selected.previous.length);
+    }
+    setSelected({
+      previous: [],
+    })
+    setTimer(-1);
+  }
+
+  if (timer.time > 0) {
+    setInterval(()=> {
+      let tick = timer.time;
+      tick -= 1;
+      console.log("tick ", tick);
+      setTimer({
+        time: tick,
+      });
+    }, 1000)
+  }
+
+  if (timer.time === 0) {
+    gameOver();
   }
 
     // when card is clicked
   const onSelect = async (selectedCard) => {
     if (selected.previous.includes(selectedCard)) { //check if the selected card has been selected previously
       //if it is, you loose 
-      alert("Game Over \n Score: "+ selected.previous.length + "\n" + selected.previous.join('\n'));
-      setCards([]);
-      setHideButton( false );
-      if (selected.previous.length > best) {
-        setBest(selected.previous.length);
-      }
-      setSelected({
-        previous: [],
-      })
-      return
+      gameOver()
     }
     let newList = [...selected.previous, selectedCard]; 
     setSelected({previous: newList}); //if not, add card to previously selevcted list
     drawCards();
   }
+
+
   if (loading) { return (
       <Background>
         <Loadscreen />
@@ -65,7 +94,7 @@ function App() {
     )}
   return (
     <Background>
-      <Score score={ selected.previous.length } bestScore={ best } />
+      <Score score={ selected.previous.length } bestScore={ best } timer={timer.time} />
       <PreviousList previous={ selected.previous } style={{gridColumn: '1',gridRow: '1'}} />
       <Card select={ onSelect } hand={ cards } />
       <StartButton draw={drawCards} isHidden={ hideButton } />
@@ -73,6 +102,6 @@ function App() {
   );
 }
 
-export default App;
+export default Game;
 
 

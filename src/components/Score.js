@@ -2,11 +2,12 @@ import React from "react";
 import { StyledScore } from '../App.styled'
 
 export default function Score(props) {
-    const { score, bestScore } = props;
+    const { score, bestScore, timer } = props;
     return(
         <StyledScore>
             BEST: { bestScore } <br />
-            POINTS: { score }
+            POINTS: { score } <br />
+            {timer>0 && "TIME:" + timer + "s"}
         </StyledScore>
     )
 }
