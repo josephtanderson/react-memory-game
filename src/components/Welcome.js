@@ -9,7 +9,7 @@ const Welcome = () => {
     return(
         <Background>
             <RulesBG>
-                <h1>RULES</h1>
+                <h1>♠<span style={{color: "red"}}>♥</span>RULES♣<span style={{color: "red"}}>♦</span></h1>
                 <p>
                     Click a Card, don't click it again. <br />
                     If you click the same card twice it's game over. <br /> 

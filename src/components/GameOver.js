@@ -31,12 +31,12 @@ const GameOver = () => {
                 setting={"NORMAL"}
                 symbol={"♣"}
                 />
-                <DifficultyOption
+                {/* <DifficultyOption
                 checked={checked}
                 handleClick={handleDifficulty}
                 setting={"HARD"}
                 symbol={"♠"}
-                />
+                /> */}
                 <br />
                 <div>
                 {checked.easy === true && <><h3>Pretty Much Not a Game.</h3> <p> Previously, clicked cards are displayed on screen</p> </>}
