@@ -5,6 +5,12 @@ export const GameContext = createContext(undefined);
 export const GameContextProvider = ({ children }) => {
     const [ difficulty, setDifficulty ] = useState("normal");
     const [ best, updateBest ] = useState(0);
+    
+    const [ score, updateScore ] = useState(0);
+    const [ lastCards, setLastCards ] = useState({
+        previous: [],
+    });
+
 
     const context = useMemo(
         () => ({
@@ -12,7 +18,11 @@ export const GameContextProvider = ({ children }) => {
         setDifficulty,
         best,
         updateBest,
-    }), [ difficulty, best ])
+        lastCards,
+        setLastCards,
+        score,
+        updateScore,
+    }), [ difficulty, best, lastCards, score ])
 
     return (
         <GameContext.Provider value={context} > {children} </GameContext.Provider>

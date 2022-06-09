@@ -1,7 +1,9 @@
+import { StyledScore } from '../App.styled'
+
 export default function Loadscreen (props) {
     return(
-        <div>
-            LOADING
-        </div>
+        <StyledScore>
+            LOADING...
+        </StyledScore>
     )
 }

@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GameContextProvider } from "./context/GameContext";
-import Game from "./components/Game";
-// import Rules from "./components/Rules";
+import App from "./App";
+import GameOver from "./components/GameOver";
 import Welcome from "./components/Welcome";
 
 const RouteSwitch = () => {
@@ -11,8 +11,8 @@ const RouteSwitch = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Welcome />} />
-                <Route path="/game" element={<Game />} />
-                {/* <Route path="/rules" element={<Rules />} /> */}
+                <Route path="/game" element={<App />} />
+                <Route path="/game-over" element={<GameOver />} />
         </Routes>
       </BrowserRouter>
     </GameContextProvider>
