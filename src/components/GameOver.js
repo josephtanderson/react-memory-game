@@ -6,7 +6,7 @@ import PreviousList from './PreviousList';
 import { useGameContext } from '../context/useGameContext';
 
 const GameOver = () => {
-    const { lastCards } = useGameContext();
+    const { lastCards, score } = useGameContext();
     const { best, handleStart, checked, handleDifficulty } = useGameMemory();
 
     return(
@@ -14,6 +14,7 @@ const GameOver = () => {
             <RulesBG>
                 {best !== 52 && <h1>YOU LOSE</h1>}
                 {best === 52 && <h1>YOU WIN</h1>}
+                <h2> SCORE: {score}  points </h2>
                 <PreviousList previous={ lastCards } />
 
 
